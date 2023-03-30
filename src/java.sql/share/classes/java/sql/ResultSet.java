@@ -25,6 +25,7 @@
 
 package java.sql;
 
+import org.checkerframework.checker.mustcall.qual.InheritableMustCall;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
@@ -149,7 +150,8 @@ import java.io.InputStream;
  * @since 1.1
  */
 
-@AnnotatedFor("nullness")
+@AnnotatedFor({"mustcall","nullness"})
+@InheritableMustCall("close")
 public interface ResultSet extends Wrapper, AutoCloseable {
 
     /**
