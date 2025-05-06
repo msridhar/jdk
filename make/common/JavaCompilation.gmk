@@ -296,7 +296,41 @@ define SetupJavaCompilationBody
     $1_AUGMENTED_CLASSPATH += $$(BUILDTOOLS_OUTPUTDIR)/depend $$($1_BIN)
   endif
 
+  ifneq ($(filter BUILD_java.compiler.interim,$1), )
+    $1_FLAGS += \
+        -J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED \
+        -J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED \
+        -J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED \
+        -J--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED \
+        -J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED \
+        -J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED \
+        -J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED \
+        -J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED \
+        -J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED \
+        -J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED
+  endif
+
+  ifneq ($(filter java.% jdk.%,$1), )
+    $1_JAVA_FLAGS += \
+        --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED \
+        --add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED \
+        --add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED \
+        --add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED \
+        --add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED \
+        --add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED \
+        --add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED \
+        --add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED \
+        --add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED \
+        --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED
+  endif
+
+  ifneq ($(filter BUILD_java.compiler.interim java.% jdk.%,$1), )
+    $1_API_DIGEST_FLAGS += -Xplugin:"NullnessAnnotationSerializer /tmp"
+    $1_AUGMENTED_CLASSPATH += /Users/msridhar/git-repos/NullAway/jdk-javac-plugin/build/libs/jdk-javac-plugin-all.jar
+  endif
+
   ifneq ($$($1_AUGMENTED_CLASSPATH), )
+    $$(call LogWarn, Compiling with classpath $1_AUGMENTED_CLASSPATH: $$($1_AUGMENTED_CLASSPATH))
     $1_FLAGS += -cp $$(call PathList, $$($1_AUGMENTED_CLASSPATH))
   endif
 
