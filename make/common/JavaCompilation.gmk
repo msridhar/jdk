@@ -284,6 +284,7 @@ define SetupJavaCompilationBody
   ifeq ($$($1_CREATE_API_DIGEST), true)
     $1_API_DIGEST_FLAGS := \
         -Xplugin:"depend $$($1_API_TARGET)" \
+        -Xplugin:HelloPlugin \
         "-XDinternalAPIPath=$$($1_API_INTERNAL)" \
         "-XDLOG_LEVEL=$(LOG_LEVEL)" \
         #
@@ -295,7 +296,10 @@ define SetupJavaCompilationBody
     $1_AUGMENTED_CLASSPATH += $$(BUILDTOOLS_OUTPUTDIR)/depend $$($1_BIN)
   endif
 
+
   ifneq ($$($1_AUGMENTED_CLASSPATH), )
+    $1_AUGMENTED_CLASSPATH += /Users/msridhar/git-repos/NullAway/jdk-javac-plugin/build/libs/jdk-javac-plugin.jar
+    $$(call LogWarn, Compiling with classpath $1_AUGMENTED_CLASSPATH: $$($1_AUGMENTED_CLASSPATH))
     $1_FLAGS += -cp $$(call PathList, $$($1_AUGMENTED_CLASSPATH))
   endif
 
