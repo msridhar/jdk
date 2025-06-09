@@ -298,7 +298,7 @@ define SetupJavaCompilationBody
 
 
   ifneq ($$($1_AUGMENTED_CLASSPATH), )
-    $1_AUGMENTED_CLASSPATH += /Users/msridhar/git-repos/NullAway/jdk-javac-plugin/build/libs/jdk-javac-plugin.jar
+    $1_AUGMENTED_CLASSPATH += /Users/msridhar/git-repos/NullAway/jdk-javac-plugin/build/libs/jdk-javac-plugin-all.jar
     $$(call LogWarn, Compiling with classpath $1_AUGMENTED_CLASSPATH: $$($1_AUGMENTED_CLASSPATH))
     $1_FLAGS += -cp $$(call PathList, $$($1_AUGMENTED_CLASSPATH))
   endif
