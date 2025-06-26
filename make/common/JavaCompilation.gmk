@@ -284,7 +284,7 @@ define SetupJavaCompilationBody
   ifeq ($$($1_CREATE_API_DIGEST), true)
     $1_API_DIGEST_FLAGS := \
         -Xplugin:"depend $$($1_API_TARGET)" \
-        -Xplugin:HelloPlugin \
+        -Xplugin:"NullnessAnnotationSerializer /tmp" \
         "-XDinternalAPIPath=$$($1_API_INTERNAL)" \
         "-XDLOG_LEVEL=$(LOG_LEVEL)" \
         #
